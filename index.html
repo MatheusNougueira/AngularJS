@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Iniciando Angular.js</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+ </head>
+
+<!-- np-app fará o DOM entender que além de ser uma página HTML é também uma aplicação 
+AngularJS, principal diretiva, pois torna a página em uma aplicação AngularJS. 
+
+Colocado a diretiva no "body" para que pegue o corpo todo e não precise colocar nas divs-->
+<body ng-app="myApp" class="txt"> 
+    
+  <img id="img" src="src/img/angularjs-logo-300x162.jpg">
+
+  <!-- ng-model fará com que o valor digitado no input e dos controles sejam visualizados na tela, 
+  vai associar aos dados do aplicativo, o valor do campo de entrada será associado a variável-->
+  <div>
+    <p>Ng-model: <input type="text" ng-model="oi"></p>
+    <h1>Será digitado através do controle aqui:  {{ oi }}</h1>
+  </div>
+
+  <!-- ng-bind associa o valor do elemento <p> ao nome da variável do app
+    tudo que for digitado no <p> o conteudo digitado será o elemento -->
+  <div>
+    <p>Ng-bind: <input type="text" ng-model="name"></p>
+    <p ng-bind="name"></p>
+  </div>
+
+  <!-- ng-init declara uma variável na aplicação AngularJS,
+  passado o sobrenome como valor da variável e irá associar o valor ao elemento -->
+  <div ng-init="sobrenome='Nougueira'">
+    <input type="text" ng-model="sobrenome"/>
+    <p>O sobrenome é: <span ng-bind="sobrenome"></span></p>
+  </div>
+
+  <!-- expressões em AngularJS são realizadas através chaves duplas {{ expressão }}-->
+  <div>
+    <p>Expressões em AngularJS, 8+5: {{ 8+5 }}</p>
+  </div>
+  
+  <!-- as expressões ligam os dados AngularJS a página HTML, podemos usar a diretiva ng-bind -->
+  <div>
+    <p>Name: <input type="text" ng-model="ola"></p>
+    <p>{{ola}}</p>
+  </div>
+
+  <!-- os controladores AngularJS controlam os aplicativos AngularJS
+  diretiva ng-controller define o controlador -->
+  <div ng-controller="myCtrl">
+
+    First name: <input type="text" ng-model="firstName"><br/>
+    Last name  <input type="text" ng-model="lastName"><br/>
+    <br/>
+    Full name = {{firstName + " " + lastName}}<br/><br/>
+  </div>
+
+  <!-- o angular resolve a expressão e retorna o resultado
+  alterando a cor da caixa de entrada -->
+  <div ng-init="myCol='lightblue'">
+    <!-- <input style="background-color:{{myCol}}" ng-model="myCol"> -->
+  </div>
+
+  <!-- os números são como os números JavaScript -->
+  <div ng-init="quantity=1; cost=5">
+    <p>Total in dollar: {{ quantity * cost }}</p>
+  </div>
+
+  <!-- strings -->
+  <div ng-init="fazendo='Aprendendo';curso='AngularJS'">
+    <p>Estou {{ fazendo + " " + curso }}</span></p>
+  </div>
+
+  <!-- objetos -->
+  <div ng-init="person ={firstName:'Matheus', lastName:'Nougueira'}">
+    <p>O nome é {{ person.firstName + " " + person.lastName }}</p>
+  </div>
+
+  <!-- arrays -->
+  <div ng-init="points=[1,15,19,2,40]">
+    <p>O resultado foi {{ points[2] }}</p>
+  </div>
+  
+  <!-- utilizando o módulo para adicionar diretivas em minha aplicação -->
+  <div w3-test-directive ></div>
+
+  <!-- ligação de dados vinculando expressões AngularJS com dados AngularJS -->
+  <div ng-init="valor=1; preco=4">
+    <h2>Custo calculator</h2>
+
+        Quantity: <input type="numer" ng-model="valor">
+        Price: <input type="numer" ng-model="preco">
+
+    <p><b>Total in dollar: </b>{{valor * preco}}</p>
+
+  </div>
+
+  <!-- ligação de dados vinculando expressões AngularJS com dados AngularJS -->
+    <div ng-init="valor1=1; preco2=4.51">
+      <h2>Custo calculator</h2>
+  
+          Quantity: <input type="number" ng-model="valor1">
+          <!-- Price: <input type="number" ng-model="preco2"> -->
+  
+      <p><b>Total in euro: </b>{{valor1 * preco2}}</p>
+  
+    </div>
+
+    <!-- ng-repeat diretiva usada em array, clona os elementos HTML -->
+    <div ng-init="namess=['Matheus', 'Cristiano', 'Mateus', 'José']">
+      <p>Looping with ng-repeat:</p>
+      <ul>
+        <li ng-repeat="x in namess">
+            {{ x }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- ng-repeat clona os elementos do html uma vez para cada item de uma coleção,
+    usando em uma matriz de objetos -->
+    <div ng-init="names=[
+      {name:'Jani',country:'Norway'},
+      {name:'Matheus',country:'Brasil'},
+      {name:'Mateus',country:'USA'},
+      {name:'Cristiano',country:'EUA'},
+      {name:'José',country:'Japan'},
+      {name:'Kai',country:'Denmark'}]">
+
+      <p>Looping with objects:</p>
+        <ul>
+          <li ng-repeat="x in names">
+          {{ x.name + ', ' + x.country }}</li>
+        </ul>
+    </div>    
+
+    <!-- ng-model pode fornecer validação de tipo para dados -->
+    <form name="myForm">
+      Email:
+      <input type="email" name="myAddress" ng-model="text">
+      <!-- será exibido a mensagem apenas se a expressão ng-show retornar true -->
+      <span ng-show="myForm.myAddress.$error.email">Not a valid e-mail address</span>
+    </form>
+
+    <!-- ng-model fornece o status dos dados -->
+    <form name="myForm1" ng-init="myText = 'matheus.nougueira@outlook.com'">
+      Email:
+      <input type="email" name="myAddress" ng-model="myText" required>
+      <h1>Status</h1>
+        <p>{{ myForm1.myAddress.$valid }}</p>
+        <p>{{ myForm1.myAddress.$dirty }}</p>
+        <p>{{ myForm1.myAddress.$touched }}</p>
+    </form>
+
+    <!-- AngularJS possuem um modelo de dados, uma coleção de dados disponíveis para o aplicativo
+    pegando valores em controller -->
+      <div ng-controller="myCtrl">
+         <p>First name: {{ firstName }}</p>
+         <p>Last name: {{ lastName }}</p>
+         <p>Full name: {{ firstName + " " + lastName }}</p>
+      </div>  
+    
+    <!-- vincular dados do modelo na exibição -->
+    <div ng-controller="myCtrl">
+      <input ng-model="firstName + ' ' + lastName"><br/><br/>
+    </div>  
+
+    <!-- quando os dados do modelo são alterados, a visualização reflete a alteração, quando os dados
+    de exibição mudam, o modelo também é atualizado -->
+    <div ng-controller="myCtrl">
+      Name: <input ng-model="firstName">
+      <h1> {{firstName}} </h1>
+    </div>
+    
+    <!-- os filtros podem ser adicionados as expressões usando o caractere de pipe "|"
+    uppercase transformam os caracteres em maiúsculos -->
+    <div ng-controller="myCtrl">
+      <p>The name is: {{ lastName | uppercase }}</p>
+    </div>
+
+    <!-- lowercase transformas as strings em minúsculas -->
+    <div ng-controller="myCtrl">
+        <p>The name is: {{ lastName | lowercase }}</p>
+    </div>
+
+    <!-- filtrando os dados orderBy classifica uma matriz -->
+    <div ng-app="myApp" ng-controller="namesCtrl">
+      <p>Looping with objects:</p>
+      <ul>
+        <li ng-repeat="x in names | orderBy:'country'">
+            {{ x.name + ', ' + x.country }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- filter só pode ser usado em uma matriz, retorna apenas os intens correspondentes -->
+    <div ng-controller="namesCtrl">
+      <ul>
+        <li ng-repeat="x in names | filter : 'i'">
+          {{ x.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- usando o valor do campo de entrada como filtro -->
+    <div ng-app="myApp" ng-controller="namesCtrl">
+
+    <p><input type="text" ng-model="test"></p>
+      <ul>
+        <li ng-repeat="x in names | filter : test">
+          {{ x.name }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- tabela filtrando os valores -->
+    <div ng-controller="namesCtrl">
+      <table border="1" width="100%">
+        <tr>
+          <th ng-click="orderByMe('name')">Name</th>
+          <th ng-click="orderByMe('country')">Country</th>
+        </tr>
+        <tr ng-repeat="x in names | orderBy:myOrderBy">
+          <td>{{x.name}}</td>
+          <td>{{x.country}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div ng-controller="myCtrl">
+      <p>The url of this page is:</p>
+      <h3>{{ myUrl }}</h3>
+      <p style="font-size: 10px">Não vai aparecer URL, site sendo acessado através da porta 8080</p>
+    </div>
+
+    <div ng-controller="myCtrl">
+      <p>{{ reponse }}</p>
+    </div>
+    
+
+  <!-- Importações -->
+  <script src="./model/controller.js"></script>
+  <script src="./app.js"></script>
+
+</body>
+
+</html>
